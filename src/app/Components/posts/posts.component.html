@@ -1,0 +1,47 @@
+<div class="mt-5 header container-fluid">
+    <div class="text-center title">
+        <h2>Open Opportunities</h2>
+        <p>Showing Opportunities</p>
+    </div>
+    <div class="search  row justify-content-between">
+        <div class="input col-md-3 ms-3">
+            <label for="search" class="">Search</label>
+            <input class="form-control " type="text" id="search">
+        </div>
+        <div class="filter col-md-3 me-3">
+            <label for="validationCustom04" class="form-label">Filtarion</label>
+            <select class="form-select" id="validationCustom04" required >
+            <option>Choose...</option>
+            </select>
+            <div class="invalid-feedback">
+            Please select a valid state.
+            </div>
+        </div>
+    </div> 
+</div>
+<div class="posts container ">
+        @for (post of posts; track $index) {
+            <div class="border-bottom row position-relative">
+                <div class="row job" [routerLink]="['../jobApplication' , post.id]">
+                    <div class="col-md-8">
+                        <h4 class="my-3">{{post.name}}</h4>
+                    </div>
+                    <div class="col-md-2 position-relative mt-3 text-center" style="left: 20%; font-weight: 600;">
+                        <p>Posted {{getTimeAgo(post.createdAt)}}</p>
+                    </div>
+                    <div class="row">
+                    <div class="col-md-1 rounded mx-2 text-center" style="background-color: rgb(234, 234, 234);">
+                        <p class="position-relative" style="top: 7px;">{{post.location.city}}</p>
+                    </div>
+                    <div class="col-md-1 rounded mx-2 text-center" style="background-color: rgb(234, 234, 234);">
+                        <p class="position-relative" style="top: 7px;">{{post.employmentType}}</p>
+                    </div>
+
+                    </div>
+                    <div class="col-md-12 mt-3">
+                        <p>{{post.description}}</p>
+                    </div>
+                </div>  
+            </div>
+        }
+</div> 

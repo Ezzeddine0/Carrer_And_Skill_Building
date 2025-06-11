@@ -1,0 +1,185 @@
+<div class="container" style="margin-top: 100px;">
+  <h3 class="mb-4">Post a New Job</h3>
+  <form [formGroup]="postJobForm" (ngSubmit)="submitJob()">
+    <!-- Job Title -->
+    <div class="mb-3">
+        <label class="form-label">Job Title</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Enter Job Title"
+          formControlName="name"
+        />
+        @if (postJobForm.get('name')?.errors && postJobForm.get('name')?.touched) {
+          <div class="alert alert-danger mt-3">
+            @if(postJobForm.get('name')?.getError('required')){
+              <p class="">Job Title is Required</p>
+            }
+          </div>
+        }
+    </div>
+
+    <!-- Job Description -->
+    <div class="mb-3">
+      <label class="form-label">Job Description</label>
+      <textarea
+        class="form-control"
+        placeholder="Enter Job Description.."
+        rows="4"
+        formControlName="description"
+      ></textarea>
+      @if (postJobForm.get('description')?.errors && postJobForm.get('description')?.touched) {
+        <div class="alert alert-danger mt-3">
+          @if(postJobForm.get('description')?.getError('required')) {
+            <p>Description is required</p>
+          }
+        </div>
+      }
+    </div>
+
+
+    <!-- Location Nested Group -->
+     <div class="row mb-3" formGroupName="location">
+      <h5 class="mb-1">Location</h5>
+      <div class="col-md-4 mt-2">
+          <label class="form-label">Street</label>
+          <input
+            type="text"
+            class="form-control"
+            placeholder="Enter Street"
+            formControlName="street"
+          />
+      </div>
+      <div class="col-md-4">
+        <label class="form-label mt-2">City</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Enter City"
+          formControlName="city"
+        />
+      </div>
+      <div class="col-md-4"> 
+        <label class="form-label mt-2">Country</label>
+        <input
+          type="text"
+          class="form-control"
+          placeholder="Enter Country"
+          formControlName="country"
+        />
+      </div>
+    </div>
+
+    <!-- Employment Type -->
+    <div class="mb-3">
+      <label class="form-label">Employment Type</label>
+      <select class="form-select" formControlName="employmentType">
+    <option [ngValue]="1">None</option>
+    <option [ngValue]="1">Full-Time</option>
+    <option [ngValue]="2">Part-Time</option>
+    <option [ngValue]="3">Contract</option>
+      </select>
+      @if (postJobForm.get('employmentType')?.errors && postJobForm.get('employmentType')?.touched) {
+        <div class="alert alert-danger mt-2">
+          @if (postJobForm.get('employmentType')?.getError('required')) {
+            <p>Employment type is required</p>
+          }
+        </div>
+      }
+    </div>
+
+
+    <!-- Minimum Salary -->
+    <div class="mb-3">
+      <label class="form-label">Minimum Salary</label>
+      <input
+        type="number"
+        class="form-control"
+        placeholder="Enter Minimum Salary"
+        formControlName="minSalary"
+      />
+      @if (postJobForm.get('minSalary')?.errors && postJobForm.get('minSalary')?.touched) {
+        <div class="alert alert-danger mt-2">
+          @if (postJobForm.getError('required')) {
+            <p>Minimum Salary is required</p>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Maximum Salary -->
+    <div class="mb-3">
+      <label class="form-label">Maximum Salary</label>
+      <input
+        type="number"
+        class="form-control"
+        placeholder="Enter Maximum Salary"
+        formControlName="maxSalary"
+      />
+            @if (postJobForm.get('maxSalary')?.errors && postJobForm.get('maxSalary')?.touched) {
+        <div class="alert alert-danger mt-2">
+          @if (postJobForm.getError('required')) {
+            <p>Maximum Salary is required</p>
+          }
+        </div>
+      }
+    </div>
+
+    <!-- Skills (dynamic form array) -->
+    <div formArrayName="skills" class="mb-3">
+      <label class="form-label">Skills</label>
+      <div
+        *ngFor="let skill of skills.controls; let i = index"
+        [formGroupName]="i"
+        class="mb-2"
+      >
+        <input
+          type="text"
+          class="form-control mb-2"
+          placeholder="Enter Skill Name"
+          formControlName="name"
+        />       
+         <label for="">Skill Desciption</label>
+
+        <textarea
+          type="text"
+          class="form-control mb-2"
+          placeholder="Enter Skill Description"
+          formControlName="description"
+        ></textarea>
+        <label for="">Skill Category</label>
+        <select class="form-select mb-2" formControlName="category">
+          <option [ngValue]="0">None</option>
+          <option [ngValue]="1">ProgrammingLanguage</option>
+          <option [ngValue]="2">WebDevelopment</option>
+          <option [ngValue]="3">DataScience</option>
+          <option [ngValue]="4">MachineLearning</option>
+          <option [ngValue]="5">MobileDevelopment</option>
+          <option [ngValue]="6">GameDevelopment</option>
+          <option [ngValue]="7">CyberSecurity</option>
+          <option [ngValue]="8">CloudComputing</option>
+          <option [ngValue]="9">UIUXDesign</option>
+          <option [ngValue]="10">SystemAdministration</option>
+          <option [ngValue]="11">DevOps</option>
+          <option [ngValue]="12">DataEngineering</option>
+          <option [ngValue]="13">BigData</option>
+          <option [ngValue]="14">IOT</option>
+          <option [ngValue]="15">Framework</option>
+          <option [ngValue]="16">Database</option>
+        </select>
+
+      </div>
+      <button type="button" class="btn btn-secondary mt-2" (click)="addSkill()">
+        Add Skill
+      </button>
+      <button type="button" class="btn btn-danger mt-2 ms-2" (click)="removeSkill()">
+        Remove Skill
+      </button>
+
+    </div>
+
+    <button routerLink="/jobs" type="submit" class="btn btn-primary ms-auto d-block" [disabled]="!postJobForm.valid">
+      Submit Job
+    </button>
+  </form>
+</div>
